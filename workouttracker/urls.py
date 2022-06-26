@@ -28,8 +28,8 @@ router.register(r'workouts', views.WorkoutViewSet)
 router.register(r'exercises', views.ExerciseViewSet)
 router.register(r'exercisesets', views.ExerciseSetViewSet)
 
-#router.register(r'exercisesnested', views.NestedExerciseViewSet, basename='exercisesnested')
-#router.register(r'workoutsnested', views.NestedWorkoutViewSet, basename='workoutsnested')
+router.register(r'exercisesnested', views.NestedExerciseViewSet, basename='exercisesnested')
+router.register(r'workoutsnested', views.NestedWorkoutViewSet, basename='workoutsnested')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

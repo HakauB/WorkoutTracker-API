@@ -8,7 +8,7 @@ from guardian.mixins import PermissionRequiredMixin, PermissionListMixin
 from guardian.shortcuts import assign_perm, get_objects_for_user
 
 from workouttracker.tracker.models import User, UserWeight, ExerciseType, Workout, Exercise, ExerciseSet
-from workouttracker.tracker.serializers import UserSerializer, UserWeightSerializer, ExerciseTypeSerializer, WorkoutSerializer, ExerciseSerializer, ExerciseSetSerializer
+from workouttracker.tracker.serializers import NestedExerciseSerializer, NestedWorkoutSerializer, UserSerializer, UserWeightSerializer, ExerciseTypeSerializer, WorkoutSerializer, ExerciseSerializer, ExerciseSetSerializer
 
 # Create your views here.
 
@@ -338,24 +338,71 @@ class ExerciseSetViewSet(viewsets.ModelViewSet):
 
 ##############################################################################################
 
-#class NestedExerciseViewSet(viewsets.ModelViewSet):
-#    queryset = Exercise.objects.all()
-#    serializer_class = NestedExerciseSerializer
-#    permission_classes = [permissions.IsAuthenticated, ]
-#
-#    def get_queryset(self):
-#        queryset = get_objects_for_user(
-#            self.request.user, 'tracker.view_exercise')
-#        return queryset
-#
-#
-#class NestedWorkoutViewSet(viewsets.ModelViewSet):
-#    queryset = Workout.objects.all()
-#    serializer_class = NestedWorkoutSerializer
-#    permission_classes = [permissions.IsAuthenticated, ]
-#
-#    def get_queryset(self):
-#        queryset = get_objects_for_user(
-#            self.request.user, 'tracker.view_workout')
-#        return queryset
-#
+class NestedExerciseViewSet(viewsets.ModelViewSet):
+    queryset = Exercise.objects.all()
+    serializer_class = NestedExerciseSerializer
+    permission_classes = [permissions.IsAuthenticated, ]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+        assign_perm('tracker.view_exercise',
+                    self.request.user, serializer.instance)
+        assign_perm('tracker.add_exercise',
+                    self.request.user, serializer.instance)
+        assign_perm('tracker.change_exercise',
+                    self.request.user, serializer.instance)
+        assign_perm('tracker.delete_exercise',
+                    self.request.user, serializer.instance)
+        for exercise_set in serializer.instance.exercise_set.all():
+            assign_perm('tracker.view_exerciseset',
+                        self.request.user, exercise_set)
+            assign_perm('tracker.add_exerciseset',
+                        self.request.user, exercise_set)
+            assign_perm('tracker.change_exerciseset',
+                        self.request.user, exercise_set)
+            assign_perm('tracker.delete_exerciseset',
+                        self.request.user, exercise_set)
+
+    def get_queryset(self):
+        queryset = get_objects_for_user(
+            self.request.user, 'tracker.view_exercise')
+        return queryset
+
+
+class NestedWorkoutViewSet(viewsets.ModelViewSet):
+    queryset = Workout.objects.all()
+    serializer_class = NestedWorkoutSerializer
+    permission_classes = [permissions.IsAuthenticated, ]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+        assign_perm('tracker.view_workout',
+                    self.request.user, serializer.instance)
+        assign_perm('tracker.add_workout',
+                    self.request.user, serializer.instance)
+        assign_perm('tracker.change_workout',
+                    self.request.user, serializer.instance)
+        assign_perm('tracker.delete_workout',
+                    self.request.user, serializer.instance)
+        #for exercise in serializer.instance.exercise.all():
+        #    assign_perm('tracker.view_exercise',
+        #                self.request.user, exercise)
+        #    assign_perm('tracker.add_exercise',
+        #                self.request.user, exercise)
+        #    assign_perm('tracker.change_exercise',
+        #                self.request.user, exercise)
+        #    assign_perm('tracker.delete_exercise',
+        #                self.request.user, exercise)
+        #    for exercise_set in exercise.exercise_sets.all():
+        #        assign_perm('tracker.view_exerciseset',
+        #                    self.request.user, exercise_set)
+        #        assign_perm('tracker.add_exerciseset',
+        #                    self.request.user, exercise_set)
+        #        assign_perm('tracker.change_exerciseset',
+        #                    self.request.user, exercise_set)
+        #        assign_perm('tracker.delete_exerciseset',
+        
+    def get_queryset(self):
+        queryset = get_objects_for_user(
+            self.request.user, 'tracker.view_workout')
+        return queryset
