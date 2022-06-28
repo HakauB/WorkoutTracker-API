@@ -299,12 +299,27 @@ class ExerciseViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = get_objects_for_user(
             self.request.user, 'tracker.view_exercise')
+
         workout = self.request.query_params.get('workout', None)
         if workout is not None:
             queryset = queryset.filter(workout=workout)
-        exercise_type = self.request.query_params.get('exercise_type', None)
-        if exercise_type is not None:
-            queryset = queryset.filter(exercise_type=exercise_type)
+        
+        exercise_types = self.request.query_params.getlist('exercise_type', None)
+        if exercise_types is not None and len(exercise_types) > 0:
+            queryset = queryset.filter(exercise_type__in=exercise_types)
+
+        start_date = self.request.query_params.get('start_date', None)
+        if start_date is not None:
+            queryset = queryset.filter(date_performed__gte=start_date)
+
+        end_date = self.request.query_params.get('end_date', None)
+        if end_date is not None:
+            queryset = queryset.filter(date_performed__lte=end_date)
+
+        date_performed = self.request.query_params.get('date_performed', None)
+        if date_performed is not None:
+            queryset = queryset.filter(date_performed=date_performed)
+        
         return queryset
 
 
@@ -330,9 +345,23 @@ class ExerciseSetViewSet(viewsets.ModelViewSet):
         exercise = self.request.query_params.get('exercise', None)
         if exercise is not None:
             queryset = queryset.filter(exercise=exercise)
-        exercise_type = self.request.query_params.get('exercise_type', None)
-        if exercise_type is not None:
-            queryset = queryset.filter(exercise_type=exercise_type)
+        
+        exercise_types = self.request.query_params.getlist('exercise_type', None)
+        if exercise_types is not None and len(exercise_types) > 0:
+            queryset = queryset.filter(exercise_type__in=exercise_types)
+
+        start_date = self.request.query_params.get('start_date', None)
+        if start_date is not None:
+            queryset = queryset.filter(date_performed__gte=start_date)
+
+        end_date = self.request.query_params.get('end_date', None)
+        if end_date is not None:
+            queryset = queryset.filter(date_performed__lte=end_date)
+
+        date_performed = self.request.query_params.get('date_performed', None)
+        if date_performed is not None:
+            queryset = queryset.filter(date_performed=date_performed)
+
         return queryset
 
 
@@ -384,23 +413,6 @@ class NestedWorkoutViewSet(viewsets.ModelViewSet):
                     self.request.user, serializer.instance)
         assign_perm('tracker.delete_workout',
                     self.request.user, serializer.instance)
-        #for exercise in serializer.instance.exercise.all():
-        #    assign_perm('tracker.view_exercise',
-        #                self.request.user, exercise)
-        #    assign_perm('tracker.add_exercise',
-        #                self.request.user, exercise)
-        #    assign_perm('tracker.change_exercise',
-        #                self.request.user, exercise)
-        #    assign_perm('tracker.delete_exercise',
-        #                self.request.user, exercise)
-        #    for exercise_set in exercise.exercise_sets.all():
-        #        assign_perm('tracker.view_exerciseset',
-        #                    self.request.user, exercise_set)
-        #        assign_perm('tracker.add_exerciseset',
-        #                    self.request.user, exercise_set)
-        #        assign_perm('tracker.change_exerciseset',
-        #                    self.request.user, exercise_set)
-        #        assign_perm('tracker.delete_exerciseset',
         
     def get_queryset(self):
         queryset = get_objects_for_user(
