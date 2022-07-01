@@ -53,30 +53,6 @@ class ExerciseTypeRelatedField(serializers.RelatedField):
         return get_objects_for_user(user, 'tracker.view_exercisetype')
 
 
-#class UserWeightPKField(serializers.PrimaryKeyRelatedField):
-#    def get_queryset(self):
-#        user = self.context['request'].user
-#        return get_objects_for_user(user, 'tracker.view_userweight').first()
-
-#class OrganizationPKField(serializers.PrimaryKeyRelatedField):
-#    def get_queryset(self):
-#        user = self.context['request'].user
-#        return get_objects_for_user(user, 'tracker.view_organization')
-#
-#
-#class OrganizationMembershipPKField(serializers.PrimaryKeyRelatedField):
-#    def get_queryset(self):
-#        user = self.context['request'].user
-#        return get_objects_for_user(user, 'tracker.view_organizationmembership')
-#
-#
-#class UserPKField(serializers.PrimaryKeyRelatedField):
-#    def get_queryset(self):
-#        #return User.objects.all()
-#        user = self.context['request'].user
-#        return get_objects_for_user(user, 'tracker.view_user')
-
-
 ###############################################################################
 
 
@@ -97,24 +73,6 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         model = User
         #fields = ('id', 'email', 'user_to_organization',)
         fields = ('pk', 'email', 'height',)
-
-
-#class OrganizationMembershipSerializer(serializers.HyperlinkedModelSerializer):
-#    organization = serializers.PrimaryKeyRelatedField(queryset=Organization.objects.all())
-#    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
-#    class Meta:
-#        model = OrganizationMembership
-#        fields = ('id', 'user', 'organization', 'role',)
-#
-#
-#class OrganizationSerializer(serializers.HyperlinkedModelSerializer):
-#    organization_to_user = OrganizationMembershipPKField(many=True, read_only=True) 
-#    #serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-#    #OrganizationMembershipPKField(many=True, read_only=True) 
-#    #OrganizationMembershipPKField(many=True, read_only=True)
-#    class Meta:
-#        model = Organization
-#        fields = ('id', 'name', 'organization_to_user',)
 
 
 ###############################################################################

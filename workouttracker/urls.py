@@ -20,8 +20,6 @@ from rest_framework import routers
 from workouttracker.tracker import views
 
 router = routers.DefaultRouter()
-#router.register(r'organizations', views.OrganizationViewSet)
-#router.register(r'organizationmemberships', views.OrganizationMembershipViewSet)
 router.register(r'users', views.UserViewSet)
 router.register(r'exercisetypes', views.ExerciseTypeViewSet)
 router.register(r'workouts', views.WorkoutViewSet)

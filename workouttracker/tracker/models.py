@@ -76,32 +76,6 @@ class UserWeight(models.Model):
         return str(self.weight) + ' @ ' + str(self.date)
 
 
-#class Organization(models.Model):
-#    name = models.CharField(max_length=254, unique=True)
-#    description = models.TextField(blank=True, null=True)
-#    members = models.ManyToManyField(User, through='OrganizationMembership', through_fields=('organization', 'user'))
-#
-#    created_at = models.DateTimeField(auto_now_add=True)
-#    updated_at = models.DateTimeField(auto_now=True)
-#    deleted_at = models.DateTimeField(blank=True, null=True)
-#
-#    def __str__(self):
-#        return self.name
-#
-#
-#class OrganizationMembership(models.Model):
-#    organization = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name='organization_to_user')
-#    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_to_organization')
-#    role = models.CharField(max_length=254, blank=True, null=True)
-#
-#    created_at = models.DateTimeField(auto_now_add=True)
-#    updated_at = models.DateTimeField(auto_now=True)
-#    deleted_at = models.DateTimeField(blank=True, null=True)
-#
-#    def __str__(self):
-#        return str(self.organization) + " - " + str(self.user) + " [" + str(self.role) + "]"
-
-
 class ExerciseType(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
