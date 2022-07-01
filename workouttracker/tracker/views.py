@@ -395,6 +395,19 @@ class NestedExerciseViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = get_objects_for_user(
             self.request.user, 'tracker.view_exercise')
+
+        start_date = self.request.query_params.get('start_date', None)
+        if start_date is not None:
+            queryset = queryset.filter(date_performed__gte=start_date)
+
+        end_date = self.request.query_params.get('end_date', None)
+        if end_date is not None:
+            queryset = queryset.filter(date_performed__lte=end_date)
+
+        date_performed = self.request.query_params.get('date_performed', None)
+        if date_performed is not None:
+            queryset = queryset.filter(date_performed=date_performed)
+        
         return queryset
 
 
@@ -417,4 +430,17 @@ class NestedWorkoutViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = get_objects_for_user(
             self.request.user, 'tracker.view_workout')
+
+        start_date = self.request.query_params.get('start_date', None)
+        if start_date is not None:
+            queryset = queryset.filter(date_performed__gte=start_date)
+
+        end_date = self.request.query_params.get('end_date', None)
+        if end_date is not None:
+            queryset = queryset.filter(date_performed__lte=end_date)
+
+        date_performed = self.request.query_params.get('date_performed', None)
+        if date_performed is not None:
+            queryset = queryset.filter(date_performed=date_performed)
+        
         return queryset
