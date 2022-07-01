@@ -163,9 +163,27 @@ class NestedExerciseSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         exercise_sets_data = validated_data.pop('exercise_sets')
-        exercise = Exercise.objects.create(**validated_data)
+        userr = validated_data.pop('user')
+        exercise_typee = validated_data.pop('exercise_type')
+        exercise = Exercise.objects.create(
+            user=userr,
+            exercise_type=exercise_typee,
+            **validated_data
+            )
+        assign_perm('tracker.view_exercise', userr, exercise)
+        assign_perm('tracker.add_exercise', userr, exercise)
+        assign_perm('tracker.change_exercise', userr, exercise)
+        assign_perm('tracker.delete_exercise', userr, exercise)
         for exercise_set_data in exercise_sets_data:
-            ExerciseSet.objects.create(exercise=exercise, exercise_type=exercise['exercise_type'], **exercise_set_data)
+            exercise_set = ExerciseSet.objects.create(
+                user=userr,
+                exercise=exercise,
+                exercise_type=exercise_typee, 
+                **exercise_set_data
+                )
+            assign_perm('tracker.view_exerciseset', userr, exercise_set)
+            assign_perm('tracker.add_exerciseset', userr, exercise_set)
+            assign_perm('tracker.change_exerciseset', userr, exercise_set)
         return exercise
     
     class Meta:

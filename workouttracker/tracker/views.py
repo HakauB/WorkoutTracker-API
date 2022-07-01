@@ -382,15 +382,6 @@ class NestedExerciseViewSet(viewsets.ModelViewSet):
                     self.request.user, serializer.instance)
         assign_perm('tracker.delete_exercise',
                     self.request.user, serializer.instance)
-        for exercise_set in serializer.instance.exercise_set.all():
-            assign_perm('tracker.view_exerciseset',
-                        self.request.user, exercise_set)
-            assign_perm('tracker.add_exerciseset',
-                        self.request.user, exercise_set)
-            assign_perm('tracker.change_exerciseset',
-                        self.request.user, exercise_set)
-            assign_perm('tracker.delete_exerciseset',
-                        self.request.user, exercise_set)
 
     def get_queryset(self):
         queryset = get_objects_for_user(
