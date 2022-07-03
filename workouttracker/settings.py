@@ -35,6 +35,7 @@ DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
 #ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
 ALLOWED_HOSTS = [
     'WorkoutTracker-API-dev.us-west-2.elasticbeanstalk.com',
+    '172.31.35.184'
 ]
 
 DEVELOPMENT_MODE = os.getenv('DJANGO_DEVELOPMENT_MODE', 'False') == 'True'
