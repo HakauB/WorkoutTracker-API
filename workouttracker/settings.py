@@ -252,3 +252,21 @@ GUARDIAN_MONKEY_PATCH = False
 #REGISTRATION_BACKEND = 'myapp.backends.MyRegistrationBackend'
 
 ###############################################################################
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "loggers": {
+        "django": {"handlers": ["console"], "level": "INFO"},
+        "django.request": {
+            "handlers": ["console"],
+            "level": "ERROR",
+            "propagate": True,
+        },
+    },
+}
