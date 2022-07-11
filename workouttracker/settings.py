@@ -58,6 +58,8 @@ INSTALLED_APPS = [
     'django_filters',
 
     'workouttracker.tracker',
+
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -202,4 +204,3 @@ GUARDIAN_MONKEY_PATCH = False
 
 #INVITATION_BACKEND = 'myapp.backends.MyInvitationBackend'
 #REGISTRATION_BACKEND = 'myapp.backends.MyRegistrationBackend'
-
